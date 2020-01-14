@@ -2,7 +2,10 @@
 Code for San Jose On Boarding Slack Bot
 
 ### Description
-This is forked from https://github.com/slackapi/template-terms-of-service
+I began following this tutorial posted by Slack: https://api.slack.com/best-practices/blueprints/new-user-notification
+And ended up forking this project https://github.com/slackapi/template-terms-of-service
+
+The onboarding-slack-bot's goal is to automate the Code for San Jose onboarding process as much as possible.
 
 #### Run locally
 1. Get the code
