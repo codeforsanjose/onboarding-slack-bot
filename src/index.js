@@ -53,12 +53,12 @@ app.post('/events', (req, res) => {
                             id
                         } = event.user;
 
-                        onboard.initialMessage(id);
+                        onboard.sendInitialMessage(id);
                     }
 
                     // TODO for testing purposes only
                     if (event.type === 'star_added') {
-                        onboard.initialMessage(event.user);
+                        onboard.sendInitialMessage(event.user);
                     }
                 }
 

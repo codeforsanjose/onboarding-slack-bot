@@ -23,4 +23,4 @@ const sendInitialMessage = (userId) => {
     });
 };
 
-module.exports = { initialMessage };
+module.exports = { sendInitialMessage };
