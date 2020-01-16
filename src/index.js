@@ -9,7 +9,7 @@ const morgan = require('morgan');
 
 const app = express();
 
-app.use(morgan());
+app.use(morgan('combined'));
 
 /*
  * Parse application/x-www-form-urlencoded && application/json
