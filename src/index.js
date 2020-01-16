@@ -2,8 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const onboard = require('./onboard');
-const signature = require('./verifySignature');
+const onboard = require('./botActions/onboard');
+const signature = require('./utilities/verifySignature');
 const axios = require('axios');
 const morgan = require('morgan');
 
