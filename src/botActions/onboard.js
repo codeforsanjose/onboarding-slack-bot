@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { getSignedHeader, getSignedBody } = require('../utilities/signApiCall');
 const welcomeToCodeForSanJosePayload = require('../payloads/welcomeToCodeForSanJosePayload');
-const promptQuestionaire = require('../payloads/promptQuestionaire');
+const promptQuestionnaire = require('../payloads/promptQuestionnaire');
 
 const apiUrl = 'https://slack.com/api';
 
@@ -16,11 +16,15 @@ const sendInitialMessage = (userId) => {
 
     axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
-        ...promptQuestionaire,
+        ...promptQuestionnaire,
         channel: userId
     }, {
         headers: getSignedHeader()
     });
 };
 
-module.exports = { sendInitialMessage };
+const startQuestionnaire = (userId, responseUrl) => {
+    axios.post(responseUrl, { text: 'What is your preferred name?' });
+};
+
+module.exports = { sendInitialMessage, startQuestionnaire };

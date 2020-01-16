@@ -11,8 +11,7 @@ module.exports = {
                 "type": "static_select",
                 "placeholder": {
                     "type": "plain_text",
-                    "text": "Select an item",
-                    "emoji": true
+                    "text": "Select an item"
                 },
                 "options": [
                     {
@@ -20,15 +19,14 @@ module.exports = {
                             "type": "plain_text",
                             "text": "Sure, why not?"
                         },
-                        "value": "user_questionaire_yes"
+                        "value": "user_questionnaire_yes"
                     },
                     {
                         "text": {
                             "type": "plain_text",
-                            "text": "No, I'd prefer not to.",
-                            "emoji": true
+                            "text": "No, I'd prefer not to."
                         },
-                        "value": "user_questionaire_no"
+                        "value": "user_questionnaire_no"
                     }
                 ]
             }
@@ -37,7 +35,7 @@ module.exports = {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "*This short questionaire will help our leadership team improve Code for San Jose.*"
+                "text": "*This short questionnaire will help our leadership team improve Code for San Jose.*"
             }
         }
     ]

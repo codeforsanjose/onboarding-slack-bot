@@ -37,8 +37,9 @@ app.post('/events', (req, res) => {
     switch (req.body.type) {
         case 'url_verification': {
             // verify Events API endpoint by returning challenge if present
+            res.sendStatus(200);
             res.send({ challenge: req.body.challenge });
-            break;
+            return;
         }
 
         case 'event_callback': {
@@ -54,24 +55,23 @@ app.post('/events', (req, res) => {
                         } = event.user;
 
                         onboard.sendInitialMessage(id);
+                        res.sendStatus(200);
+                        return;
                     }
 
                     // TODO for testing purposes only
                     if (event.type === 'star_added') {
                         onboard.sendInitialMessage(event.user);
+                        res.sendStatus(200);
+                        return;
                     }
                 }
-
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(500);
             }
             break;
         }
-        default: {
-            res.sendStatus(500);
-        }
     }
+
+    res.sendStatus(500);
 });
 
 /*
@@ -82,16 +82,30 @@ app.post('/interactive', (req, res) => {
     const {
         response_url,
         user,
-        team
+        actions
     } = JSON.parse(req.body.payload);
 
-    if (signature.isVerified(req)) {
-        console.log("req.body.payload", req.body.payload);
-        res.send();
-        axios.post(response_url, { text: 'Response received.' });
-    } else {
-        res.sendStatus(500);
+    if (!signature.isVerified(req)
+        || !actions
+        || !actions.length) {
+
+            res.sendStatus(500);
+            res.send();
+            return;
     }
+
+    console.log("req.body.payload", req.body.payload);
+
+    actions.forEach(action => {
+        if (action.type === "static_select") {
+            if (action.selected_option.value === "user_questionnaire_yes") {
+                onboard.startQuestionnaire(user.id, response_url);
+            }
+        }
+    });
+
+    res.sendStatus(200);
+    res.send();
 });
 
 const server = app.listen(process.env.PORT || 5000, () => {
