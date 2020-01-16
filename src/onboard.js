@@ -15,7 +15,7 @@ const initialMessage = (userId) => {
         headers: { Authorization: "Bearer " + process.env.SLACK_ACCESS_TOKEN }
     })
     .then(result => {
-        console.log("--- result ---", result.data);
+        // console.log("--- result ---", result.data);
     });
 
 };
