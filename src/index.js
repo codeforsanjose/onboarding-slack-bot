@@ -5,8 +5,11 @@ const bodyParser = require('body-parser');
 const onboard = require('./onboard');
 const signature = require('./verifySignature');
 const axios = require('axios');
+const morgan = require('morgan');
 
 const app = express();
+
+app.use(morgan());
 
 /*
  * Parse application/x-www-form-urlencoded && application/json
@@ -83,8 +86,9 @@ app.post('/interactive', (req, res) => {
     } = JSON.parse(req.body.payload);
 
     if (signature.isVerified(req)) {
+        console.log("req.body.payload", req.body.payload);
         res.send();
-        axios.post(response_url, { text: 'Thank you! The Terms of Service have been accepted.' });
+        axios.post(response_url, { text: 'Response received.' });
     } else {
         res.sendStatus(500);
     }

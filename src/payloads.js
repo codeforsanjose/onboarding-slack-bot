@@ -4,42 +4,44 @@ module.exports = {
             text: `${context.notification}`,
             blocks: [
                 {
-                    type: 'section',
-                    text: {
-                        type: 'mrkdwn',
-                        text: `${context.header}`
+                    'type': 'section',
+                    'text': {
+                        'type': 'mrkdwn',
+                        'text': 'Hi David :wave:'
                     }
                 },
                 {
-                    type: 'divider'
-                },
-                {
-                    type: 'section',
-                    text: {
-                        type: 'mrkdwn',
-                        text: '*What is Slack?*\nSlack is where work happens. If this is your first time using Slack, take some time to read the <https://get.slack.help|help docs> and our internal wiki. If you have any questions, jump into #help-slack and we\'ll help you out'
+                    'type': 'section',
+                    'text': {
+                        'type': 'mrkdwn',
+                        'text': 'Great to see you here! App helps you to stay up-to-date with your meetings and events right here within Slack. These are just a few things which you will be able to do:'
                     }
                 },
                 {
-                    type: 'section',
-                    text: {
-                        type: 'mrkdwn',
-                        text: '*Code of Conduct*\nOur goal is to maintain a safe, helpful and friendly community for everyone, regardless of experience, gender identity and expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, religion, nationality, or other defining characteristic. Please take the time to read through <https://code.localhost|Code of Conduct> before continuing.'
+                    'type': 'section',
+                    'text': {
+                        'type': 'mrkdwn',
+                        'text': '• Schedule meetings \n • Manage and update attendees \n • Get notified about changes of your meetings'
                     }
                 },
                 {
-                    type: 'actions',
-                    elements: [
+                    'type': 'section',
+                    'text': {
+                        'type': 'mrkdwn',
+                        'text': 'But before you can do all these amazing things, we need you to connect your calendar to App. Simply click the button below:'
+                    }
+                },
+                {
+                    'type': 'actions',
+                    'elements': [
                         {
-                            action_id: 'accept',
-                            type: 'button',
-                            text: {
-                                type: 'plain_text',
-                                text: 'Accept',
-                                emoji: true
+                            'type': 'button',
+                            'text': {
+                                'type': 'plain_text',
+                                'text': 'Connect account',
+                                'emoji': true
                             },
-                            style: 'primary',
-                            value: 'accept'
+                            'value': 'click_me_123'
                         }
                     ]
                 }
