@@ -1,5 +1,5 @@
 const axios = require('axios');
-const payloads = require('./payloads');
+const initialMessagePayload = require('./payloads/initialMessagePayload');
 
 const apiUrl = 'https://slack.com/api';
 
@@ -8,9 +8,7 @@ const initialMessage = (userId) => {
     axios.post(`${apiUrl}/chat.postMessage`, {
         token: process.env.SLACK_ACCESS_TOKEN,
         channel: userId,
-        ...payloads.welcome_message({
-            notification: 'Welcome to the team! We\'re glad you\'re here.',
-        })
+        ...initialMessagePayload
     }, {
         headers: { Authorization: "Bearer " + process.env.SLACK_ACCESS_TOKEN }
     })
