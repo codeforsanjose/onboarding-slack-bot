@@ -36,21 +36,27 @@ router.post('/', async (req, res) => {
 
     console.log("--- req.body.payload ---", req.body.payload);
 
-    actions.forEach(async action => {
-        const { type, block_id, value } = action;
+    for (let i = 0; i < actions.length; i++) {
+        const action = actions[i];
+
+        const {
+            type,
+            block_id: blockId,
+            value
+        } = action;
 
         if (type !== "block_actions") {
             return;
         }
 
-        if (block_id === blockIds.userBeganOnBoardingSurveyAction) {
+        if (blockId === blockIds.userBeganOnBoardingSurveyAction) {
             if (value === actionValues.userBeganOnBoardingSurvey) {
                 confirmFinishedSurvey(userId, responseUrl);
                 washandled = true;
             }
         }
 
-        else if (block_id === blockIds.userFinishedSurveyAction) {
+        else if (blockId === blockIds.userFinishedSurveyAction) {
             if (value === actionValues.userFinishedSurvey) {
                 await thankForFinishingSurvey(userId, responseUrl);
                 doYouWantToCode(userId, responseUrl);
@@ -58,7 +64,7 @@ router.post('/', async (req, res) => {
             }
         }
 
-        else if (block_id === block_id.doYouWantToCodeAction) {
+        else if (blockId === blockIds.doYouWantToCodeAction) {
             if (value === actionValues.userWantsToCode) {
                 whatTypeOfCoding(userId, responseUrl);
                 washandled = true;
@@ -68,7 +74,7 @@ router.post('/', async (req, res) => {
                 washandled = true;
             }
         }
-    });
+    }
 
     if (washandled) {
         res.sendStatus(200);
