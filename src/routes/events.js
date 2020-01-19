@@ -32,6 +32,13 @@ router.post('/', async (req, res) => {
                         return;
                     }
 
+                    if (event.type === 'reaction_added') {
+                        res.sendStatus(200);
+                        await sendInitialMessage(event.user);
+                        promptSurvey(event.user);
+                        return;
+                    }
+
                     // TODO for testing purposes only
                     if (event.type === 'star_added') {
                         res.sendStatus(200);
