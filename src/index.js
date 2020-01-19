@@ -97,18 +97,15 @@ app.post('/interactive', async (req, res) => {
     console.log("req.body.payload", req.body.payload);
 
     actions.forEach(action => {
-        if (action.type === "static_select") {
-            const { value } = action.selected_option;
+        const { block_id, value } = action;
 
-            switch(value) {
-                case "userBeganOnBoardingSurvey": {
-                    onboard.confirmFinishedSurvey(user.id, response_url);
-                    break;
-                }
-                case "userFinishedSurvey": {
-                    break;
-                }
-            }
+        if (block_id === "userBeganOnBoardingSurveyActionBlockId" && value === "userBeganOnBoardingSurvey") {
+            onboard.confirmFinishedSurvey(user.id, response_url);
+
+        }
+
+        if (block_id === "userFinishedSurveyActionBlockId" && value === "userFinishedSurvey") {
+            console.log("req.body.payload", req.body.payload);
         }
     });
 

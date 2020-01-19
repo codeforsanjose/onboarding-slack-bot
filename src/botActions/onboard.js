@@ -7,6 +7,7 @@ const confirmFinishedSurveyPayload = require('../payloads/confirmFinishedSurveyP
 const apiUrl = 'https://slack.com/api';
 
 const sendInitialMessage = async userId => {
+    console.log("--- sendInitialMessage ---");
     let res;
 
     res = await axios.post(`${apiUrl}/chat.postMessage`, {
@@ -17,7 +18,7 @@ const sendInitialMessage = async userId => {
         headers: getSignedHeader()
     });
 
-    console.log(res);
+    // console.log(res);
 
     res = await axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
@@ -25,10 +26,11 @@ const sendInitialMessage = async userId => {
         channel: userId
     });
 
-    console.log(res);
+    // console.log(res);
 };
 
 const confirmFinishedSurvey = async (userId, responseUrl) => {
+    console.log("--- confirmFinishedSurvey ---");
     let res;
 
     res = await axios.post(responseUrl, {
@@ -36,7 +38,7 @@ const confirmFinishedSurvey = async (userId, responseUrl) => {
         ...confirmFinishedSurveyPayload
     });
 
-    console.log(res);
+    // console.log(res);
 };
 
 module.exports = { sendInitialMessage, confirmFinishedSurvey };
