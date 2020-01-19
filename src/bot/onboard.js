@@ -47,7 +47,16 @@ const thanksForFinishingSurvey = async (userId, responseUrl) => {
     console.log("--- thanksForFinishingSurvey ---");
     return axios.post(responseUrl, {
         ...getSignedBody(),
-        text: "Thank you for finishing the survey."
+        text: "Thank you for finishing the survey.",
+        blocks: [
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": `:clap: Thank you for finishing the survey.`
+                },
+            }
+        ]
     },  headers);
 };
 
@@ -93,7 +102,7 @@ const confirmTypeOfCodingResponse = async (userId, responseUrl, selectedOptions)
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `You said you are interested in these types of coding: \n ${listOfSelectedCodingTypes}`
+                    "text": `*You said you are interested in these types of coding:* \n ${listOfSelectedCodingTypes}`
                 },
             }
         ]
@@ -134,7 +143,7 @@ const confirmGeneralContributionResponse = async (userId, responseUrl, selectedO
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `You said you are interested in these types of contributions: \n ${listOfSelectedGeneralContributions}`
+                    "text": `*You said you are interested in these types of contributions:* \n ${listOfSelectedGeneralContributions}`
                 },
             }
         ]
