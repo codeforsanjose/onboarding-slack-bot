@@ -8,7 +8,7 @@ const {
     santaClaraCountyProbationDepartmentPayload,
     disasterResponsePayload,
     codeForSanJoseWebsitePayload
-} = require('../payloads/onboardingPayloads');
+} = require('../payloads/projectDescriptionPayloads');
 
 const projectNames = require('./projectNames');
 
