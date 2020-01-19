@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { getSignedHeader, getSignedBody } = require('../utilities/signApiCall');
+
 const {
     welcomeToCodeForSanJosePayload,
     promptSurveyPayload,
@@ -10,6 +11,9 @@ const {
     contributeBesidesCodingPayload,
     projectMatchesPayload
 } = require('../payloads/onboardingPayloads');
+
+const interestsToProjects = require('../utilities/interestsToProjects');
+const projectNameToPayload = require('../utilities/projectNameToPayload');
 
 const apiUrl = 'https://slack.com/api';
 
@@ -150,13 +154,38 @@ const confirmGeneralContributionResponse = async (userId, responseUrl, selectedO
     },  headers);
 };
 
-const projectMatches = async (userId, responseUrl) => {
-    console.log("--- projectMatches ---");
+const projectMatchesIntroduction = async (userId, responseUrl) => {
+    console.log("--- projectMatchesIntroduction ---");
     return axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
         channel: userId,
         ...projectMatchesPayload
     },  headers);
+};
+
+const projectMatches = async (userId, responseurl, selectedOptions) => {
+    console.log("--- projectMatches ---");
+    let projectPayloads = {};
+
+    selectedOptions.forEach(selection => {
+        const projectNames = interestsToProjects[selection.value];
+        projectNames.forEach(projectName => {
+            if (!projectPayloads[projectName]) {
+                projectPayloads[projectName] = true;
+            }
+        });
+    });
+
+    const projectNames = Object.keys(projectPayloads);
+
+    for (let i = 0; i< projectNames.length; i++) {
+        await axios.post(`${apiUrl}/chat.postMessage`, {
+            ...getSignedBody(),
+            channel: userId,
+            ...projectNameToPayload[projectNames[i]]
+        },  headers);
+    }
+
 };
 
 module.exports = {
@@ -171,5 +200,6 @@ module.exports = {
     howDoYouWantToContribute,
     contributeBesidesCoding,
     confirmGeneralContributionResponse,
+    projectMatchesIntroduction,
     projectMatches
 };

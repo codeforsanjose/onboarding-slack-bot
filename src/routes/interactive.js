@@ -11,12 +11,13 @@ const {
     howDoYouWantToContribute,
     contributeBesidesCoding,
     confirmGeneralContributionResponse,
+    projectMatchesIntroduction,
     projectMatches
 } = require('../bot/onboard');
 
-const blockIds = require('../payloads/blockIds');
-const actionValues = require('../payloads/actionValues');
-const actionTypes = require('../payloads/actionTypes');
+const blockIds = require('../utilities/blockIds');
+const actionValues = require('../utilities/actionValues');
+const actionTypes = require('../utilities/actionTypes');
 
 router.post('/', async (req, res) => {
     if (!signature.isVerified(req)) {
@@ -168,13 +169,16 @@ async function handleMultiStaticSelect(resPayload, action) {
     switch (blockId) {
         case blockIds.whatTypeOfCodingAction: {
             await confirmTypeOfCodingResponse(userId, responseUrl, selectedOptions);
+            await projectMatchesIntroduction(userId, responseUrl);
+            await projectMatches(userId, responseUrl, selectedOptions);
             contributeBesidesCoding(userId, responseUrl);
             return true;
         }
         case blockIds.howDoYouWantToContributeAction:
         case blockIds.contributeBesidesCodingAction: {
-            await confirmTypeOfCodingResponse(userId, responseUrl, selectedOptions);
-            projectMatches(userId, responseUrl);
+            await confirmGeneralContributionResponse(userId, responseUrl, selectedOptions);
+            await projectMatchesIntroduction(userId, responseUrl);
+            projectMatches(userId, responseUrl, selectedOptions);
             return true;
         }
     }

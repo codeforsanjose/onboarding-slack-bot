@@ -1,5 +1,5 @@
-const blockIds = require('./blockIds');
-const actionValues = require('./actionValues');
+const blockIds = require('../utilities/blockIds');
+const actionValues = require('../utilities/actionValues');
 
 const welcomeToCodeForSanJosePayload = {
     text: `Welcome to Code for San Jose`,

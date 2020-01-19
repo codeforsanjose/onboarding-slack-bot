@@ -19,33 +19,35 @@ router.post('/', async (req, res) => {
             if (signature.isVerified(req)) {
                 const { event } = req.body;
 
-                if (!event.is_bot) {
-                    // `team_join` is fired whenever a new user (incl. a bot) joins the team
-                    if (event.type === 'team_join') {
-                        const {
-                            id
-                        } = event.user;
+                if (event.is_bot) {
+                    break;
+                }
 
-                        res.sendStatus(200);
-                        await sendInitialMessage(id);
-                        promptSurvey(id);
-                        return;
-                    }
+                // `team_join` is fired whenever a new user (incl. a bot) joins the team
+                if (event.type === 'team_join') {
+                    const {
+                        id
+                    } = event.user;
 
-                    if (event.type === 'reaction_added') {
-                        res.sendStatus(200);
-                        await sendInitialMessage(event.user);
-                        promptSurvey(event.user);
-                        return;
-                    }
+                    res.sendStatus(200);
+                    await sendInitialMessage(id);
+                    promptSurvey(id);
+                    return;
+                }
 
-                    // TODO for testing purposes only
-                    if (event.type === 'star_added') {
-                        res.sendStatus(200);
-                        await sendInitialMessage(event.user);
-                        promptSurvey(event.user);
-                        return;
-                    }
+                // if (event.type === 'reaction_added') {
+                //     res.sendStatus(200);
+                //     await sendInitialMessage(event.user);
+                //     promptSurvey(event.user);
+                //     return;
+                // }
+
+                // TODO for testing purposes only
+                if (event.type === 'star_added') {
+                    res.sendStatus(200);
+                    await sendInitialMessage(event.user);
+                    promptSurvey(event.user);
+                    return;
                 }
             }
             break;

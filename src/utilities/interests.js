@@ -1,0 +1,17 @@
+module.exports = {
+    contributeBackendServer: "contributeBackendServer",
+    contributeFrontend: "contributeFrontend",
+    contributeDataScience: "contributeDataScience",
+    contributeMobileDevelopment: "contributeMobileDevelopment",
+    contributeCyberSecurity: "contributeCyberSecurity",
+    contributeUxProductDesign: "contributeUxProductDesign",
+    contributeAdvisingSme: "contributeAdvisingSme",
+    contributeSponsorPartnership: "contributeSponsorPartnership",
+    contributeProjectManagement: "contributeProjectManagement",
+    contributeResearch: "contributeResearch",
+    contributeGovPolicyExpert: "contributeGovPolicyExpert",
+    contributeDocumentation: "contributeDocumentation",
+    contributeUserTesting: "contributeUserTesting",
+    contributeObservation: "contributeObservation",
+    contributeDevOps: "contributeDevOps",
+};
