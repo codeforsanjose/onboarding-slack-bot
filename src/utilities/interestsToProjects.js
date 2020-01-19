@@ -1,5 +1,5 @@
-const projectNames = require('projectNames');
-const interests = require('interests');
+const projectNames = require('./projectNames');
+const interests = require('./interests');
 
 module.exports = {
     [interests.contributeBackendServer]: [

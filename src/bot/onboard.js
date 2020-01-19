@@ -176,13 +176,13 @@ const projectMatches = async (userId, responseurl, selectedOptions) => {
         });
     });
 
-    const projectNames = Object.keys(projectPayloads);
+    const finalProjectNames = Object.keys(projectPayloads);
 
-    for (let i = 0; i< projectNames.length; i++) {
+    for (let i = 0; i< finalProjectNames.length; i++) {
         await axios.post(`${apiUrl}/chat.postMessage`, {
             ...getSignedBody(),
             channel: userId,
-            ...projectNameToPayload[projectNames[i]]
+            ...projectNameToPayload[finalProjectNames[i]]
         },  headers);
     }
 
