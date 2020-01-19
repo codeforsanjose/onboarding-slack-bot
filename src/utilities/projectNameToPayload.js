@@ -10,7 +10,7 @@ const {
     codeForSanJoseWebsitePayload
 } = require('../payloads/onboardingPayloads');
 
-const projectNames = require('projectNames');
+const projectNames = require('./projectNames');
 
 module.exports = {
     [projectNames.openDisclosure]: openDisclosurePayload,
