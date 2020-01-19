@@ -45,10 +45,6 @@ router.post('/', async (req, res) => {
             value
         } = action;
 
-        if (type !== "block_actions") {
-            return;
-        }
-
         if (blockId === blockIds.userBeganOnBoardingSurveyAction) {
             if (value === actionValues.userBeganOnBoardingSurvey) {
                 confirmFinishedSurvey(userId, responseUrl);

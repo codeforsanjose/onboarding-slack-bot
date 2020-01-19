@@ -81,7 +81,7 @@ const doYouWantToCodePayload = {
             "block_id": blockIds.doYouWantToCodeAction,
             "text": {
                 "type": "mrkdwn",
-                "text": "Would you like to contribute by coding?.*"
+                "text": "Would you like to contribute by coding?"
             },
             "accessory": {
                 "action_id": "text1234",

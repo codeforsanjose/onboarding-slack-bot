@@ -17,8 +17,8 @@ const sendInitialMessage = async userId => {
     console.log("--- sendInitialMessage ---");
     return axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
+        channel: userId,
         ...welcomeToCodeForSanJosePayload,
-        channel: userId
     }, {
         headers: getSignedHeader()
     });
@@ -57,9 +57,10 @@ const thankForFinishingSurvey = async (userId, responseUrl) => {
 
 const doYouWantToCode = async (userId, responseUrl) => {
     console.log("--- doYouWantToCode ---");
-    return axios.post(responseUrl, {
+    return axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
-        ...doYouWantToCodePayload
+        channel: userId,
+        ...doYouWantToCodePayload,
     }, {
         headers: getSignedHeader()
     });
@@ -67,8 +68,9 @@ const doYouWantToCode = async (userId, responseUrl) => {
 
 const whatTypeOfCoding = async (userId, responseUrl) => {
     console.log("--- whatTypeOfCoding ---");
-    return axios.post(responseUrl, {
+    return axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
+        channel: userId,
         ...whatTypeOfCodingPayload
     }, {
         headers: getSignedHeader()
@@ -77,8 +79,9 @@ const whatTypeOfCoding = async (userId, responseUrl) => {
 
 const howDoYouWantToContribute = async (userId, responseUrl) => {
     console.log("--- howDoYouWantToContribute ---");
-    return axios.post(responseUrl, {
+    return axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
+        channel: userId,
         ...howDoYouWantToContributePayload
     }, {
         headers: getSignedHeader()
@@ -87,8 +90,9 @@ const howDoYouWantToContribute = async (userId, responseUrl) => {
 
 const contributeBesidesCoding = async (userId, responseUrl) => {
     console.log("--- contributeBesidesCoding ---");
-    return axios.post(responseUrl, {
+    return axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
+        channel: userId,
         ...contributeBesidesCodingPayload
     }, {
         headers: getSignedHeader()
@@ -97,8 +101,9 @@ const contributeBesidesCoding = async (userId, responseUrl) => {
 
 const projectMatches = async (userId, responseUrl) => {
     console.log("--- projectMatches ---");
-    return axios.post(responseUrl, {
+    return axios.post(`${apiUrl}/chat.postMessage`, {
         ...getSignedBody(),
+        channel: userId,
         ...projectMatchesPayload
     }, {
         headers: getSignedHeader()
