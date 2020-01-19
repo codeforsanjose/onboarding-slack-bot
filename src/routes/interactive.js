@@ -56,7 +56,7 @@ router.post('/', async (req, res) => {
         }
     }
 
-    if (washandled) {
+    if (wasHandled) {
         res.sendStatus(200);
     } else {
         res.sendStatus(500);

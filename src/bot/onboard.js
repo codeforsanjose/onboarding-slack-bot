@@ -128,13 +128,13 @@ const confirmGeneralContributionResponse = async (userId, responseUrl, selectedO
 
     return axios.post(responseUrl, {
         ...getSignedBody(),
-        text: "You said you are interested in these types of coding.",
+        text: "You said you are interested in these types of contributions.",
         blocks: [
             {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `You said you are interested in these types of coding: \n ${listOfSelectedGeneralContributions}`
+                    "text": `You said you are interested in these types of contributions: \n ${listOfSelectedGeneralContributions}`
                 },
             }
         ]
