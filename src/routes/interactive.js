@@ -3,11 +3,14 @@ const signature = require('../utilities/verifySignature');
 
 const {
     confirmFinishedSurvey,
-    thankForFinishingSurvey,
+    thanksForFinishingSurvey,
     doYouWantToCode,
+    confirmCodingInterestResponse,
     whatTypeOfCoding,
+    confirmTypeOfCodingResponse,
     howDoYouWantToContribute,
     contributeBesidesCoding,
+    confirmGeneralContributionResponse,
     projectMatches
 } = require('../bot/onboard');
 
@@ -16,94 +19,42 @@ const actionValues = require('../payloads/actionValues');
 const actionTypes = require('../payloads/actionTypes');
 
 router.post('/', async (req, res) => {
-    const {
-        response_url: responseUrl,
-        user,
-        actions
-    } = JSON.parse(req.body.payload);
-
-    const {
-        id: userId
-    } = user;
-
-    if (!signature.isVerified(req)
-        || !actions
-        || !actions.length) {
-
+    if (!signature.isVerified(req)) {
         res.sendStatus(500);
         res.send();
         return;
     }
 
-    let washandled = false;
+    const resPayload = JSON.parse(req.body.payload);
+    const {
+        actions
+    } = resPayload;
 
-    console.log("--- req.body.payload ---", req.body.payload);
+    let wasHandled = false;
+
+    console.log("--- resPayload ---", resPayload);
 
     for (let i = 0; i < actions.length; i++) {
         const action = actions[i];
-
         const {
-            type,
-            block_id: blockId,
-            value
+            type
         } = action;
 
-        if (type === actionTypes.button) {
-            if (blockId === blockIds.userBeganOnBoardingSurveyAction) {
-                if (value === actionValues.userBeganOnBoardingSurvey) {
-                    confirmFinishedSurvey(userId, responseUrl);
-                    washandled = true;
-                }
+        switch (type) {
+            case actionTypes.button: {
+                wasHandled = handleButton(resPayload, action);
+                break;
             }
-
-            else if (blockId === blockIds.userFinishedSurveyAction) {
-                if (value === actionValues.userFinishedSurvey) {
-                    await thankForFinishingSurvey(userId, responseUrl);
-                    doYouWantToCode(userId, responseUrl);
-                    washandled = true;
-                }
+            case actionTypes.staticSelect: {
+                wasHandled = handleStaticSelect(resPayload, action);
+                break;
             }
-        }
-
-        else if (type === actions.staticSelect) {
-            const {
-                selected_option: {
-                    value: staticSelectValue
-                }
-            } = action;
-
-            if (blockId === blockIds.doYouWantToCodeAction) {
-                if (staticSelectValue === actionValues.userWantsToCode) {
-                    whatTypeOfCoding(userId, responseUrl);
-                    washandled = true;
-                }
-                else if (staticSelectValue === actionValues.userDoesNotWantToCode) {
-                    howDoYouWantToContribute(userId, responseUrl);
-                    washandled = true;
-                }
+            case actionTypes.multiStaticSelect: {
+                wasHandled = handleMultiStaticSelect(resPayload, action);
+                break;
             }
-        }
-
-        else if (type === actions.multiStaticSelect) {
-            const {
-                selected_options: selectedOptions
-            } = action;
-
-            if (blockId === blockIds.whatTypeOfCodingAction) {
-                contributeBesidesCoding(userId, responseUrl);
-                washandled = true;
-
-            }
-            else if (blockId === blockIds.howDoYouWantToContributeAction
-                || blockId === blockIds.contributeBesidesCodingAction) {
-                projectMatches(userId, responseUrl);
-                washandled = true;
-            }
-
         }
     }
-
-
 
     if (washandled) {
         res.sendStatus(200);
@@ -114,3 +65,119 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+
+// Helpers
+/**
+ * @param resPayload - response payload passed to route handler
+ * @param action - slack action object
+ * @returns {boolean} - wasHandled?
+ */
+async function handleButton(resPayload, action) {
+    const {
+        response_url: responseUrl,
+        user: {
+            id: userId
+        },
+    } = resPayload;
+
+    const {
+        block_id: blockId,
+        value
+    } = action;
+
+    switch (blockId) {
+        case blockIds.userBeganOnBoardingSurveyAction: {
+            if (value === actionValues.userBeganOnBoardingSurvey) {
+                confirmFinishedSurvey(userId, responseUrl);
+                return true;
+            }
+            break;
+        }
+
+        case blockIds.userFinishedSurveyAction: {
+            if (value === actionValues.userFinishedSurvey) {
+                await thanksForFinishingSurvey(userId, responseUrl);
+                doYouWantToCode(userId, responseUrl);
+                return true;
+            }
+            break;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * @param resPayload - response payload passed to route handler
+ * @param action - slack action object
+ * @returns {boolean} - wasHandled?
+ */
+async function handleStaticSelect(resPayload, action) {
+    const {
+        response_url: responseUrl,
+        user: {
+            id: userId
+        },
+    } = resPayload;
+
+    const {
+        block_id: blockId,
+        selected_option: {
+            value: staticSelectValue
+        }
+    } = action;
+
+    switch (blockId) {
+        case blockIds.doYouWantToCodeAction: {
+            if (staticSelectValue === actionValues.userWantsToCode) {
+                await confirmCodingInterestResponse(userId, responseUrl, true);
+                whatTypeOfCoding(userId, responseUrl);
+                return true;
+            }
+            else if (staticSelectValue === actionValues.userDoesNotWantToCode) {
+                await confirmCodingInterestResponse(userId, responseUrl, false);
+                howDoYouWantToContribute(userId, responseUrl);
+                return true;
+            }
+            break;
+        }
+
+    }
+
+    return false;
+}
+
+/**
+ * @param resPayload - response payload passed to route handler
+ * @param action - slack action object
+ * @returns {boolean} - wasHandled?
+ */
+async function handleMultiStaticSelect(resPayload, action) {
+    const {
+        response_url: responseUrl,
+        user: {
+            id: userId
+        },
+    } = resPayload;
+
+    const {
+        block_id: blockId,
+        selected_options: selectedOptions
+    } = action;
+
+    switch (blockId) {
+        case blockIds.whatTypeOfCodingAction: {
+            await confirmTypeOfCodingResponse(userId, responseUrl, selectedOptions);
+            contributeBesidesCoding(userId, responseUrl);
+            return true;
+        }
+        case blockIds.howDoYouWantToContributeAction:
+        case blockIds.contributeBesidesCodingAction: {
+            await confirmTypeOfCodingResponse(userId, responseUrl, selectedOptions);
+            projectMatches(userId, responseUrl);
+            return true;
+        }
+    }
+
+    return false;
+}
