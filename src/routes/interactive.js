@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const signature = require('../utilities/verifySignature');
+
 const {
     confirmFinishedSurvey,
     thankForFinishingSurvey,
@@ -9,8 +10,10 @@ const {
     contributeBesidesCoding,
     projectMatches
 } = require('../bot/onboard');
+
 const blockIds = require('../payloads/blockIds');
 const actionValues = require('../payloads/actionValues');
+const actionTypes = require('../payloads/actionTypes');
 
 router.post('/', async (req, res) => {
     const {
@@ -45,32 +48,62 @@ router.post('/', async (req, res) => {
             value
         } = action;
 
-        if (blockId === blockIds.userBeganOnBoardingSurveyAction) {
-            if (value === actionValues.userBeganOnBoardingSurvey) {
-                confirmFinishedSurvey(userId, responseUrl);
-                washandled = true;
+        if (type === actionTypes.button) {
+            if (blockId === blockIds.userBeganOnBoardingSurveyAction) {
+                if (value === actionValues.userBeganOnBoardingSurvey) {
+                    confirmFinishedSurvey(userId, responseUrl);
+                    washandled = true;
+                }
+            }
+
+            else if (blockId === blockIds.userFinishedSurveyAction) {
+                if (value === actionValues.userFinishedSurvey) {
+                    await thankForFinishingSurvey(userId, responseUrl);
+                    doYouWantToCode(userId, responseUrl);
+                    washandled = true;
+                }
             }
         }
 
-        else if (blockId === blockIds.userFinishedSurveyAction) {
-            if (value === actionValues.userFinishedSurvey) {
-                await thankForFinishingSurvey(userId, responseUrl);
-                doYouWantToCode(userId, responseUrl);
-                washandled = true;
+        else if (type === actions.staticSelect) {
+            const {
+                selected_option: {
+                    value: staticSelectValue
+                }
+            } = action;
+
+            if (blockId === blockIds.doYouWantToCodeAction) {
+                if (staticSelectValue === actionValues.userWantsToCode) {
+                    whatTypeOfCoding(userId, responseUrl);
+                    washandled = true;
+                }
+                else if (staticSelectValue === actionValues.userDoesNotWantToCode) {
+                    howDoYouWantToContribute(userId, responseUrl);
+                    washandled = true;
+                }
             }
         }
 
-        else if (blockId === blockIds.doYouWantToCodeAction) {
-            if (value === actionValues.userWantsToCode) {
-                whatTypeOfCoding(userId, responseUrl);
+        else if (type === actions.multiStaticSelect) {
+            const {
+                selected_options: selectedOptions
+            } = action;
+
+            if (blockId === blockIds.whatTypeOfCodingAction) {
+                contributeBesidesCoding(userId, responseUrl);
+                washandled = true;
+
+            }
+            else if (blockId === blockIds.howDoYouWantToContributeAction
+                || blockId === blockIds.contributeBesidesCodingAction) {
+                projectMatches(userId, responseUrl);
                 washandled = true;
             }
-            else if (value === actionValues.userDoesNotWantToCode) {
-                howDoYouWantToContribute(userId, responseUrl);
-                washandled = true;
-            }
+
         }
     }
+
+
 
     if (washandled) {
         res.sendStatus(200);

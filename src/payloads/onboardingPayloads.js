@@ -116,6 +116,7 @@ const whatTypeOfCodingPayload = {
     blocks: [
         {
             "type": "section",
+            "block_id": blockIds.whatTypeOfCodingAction,
             "text": {
                 "type": "mrkdwn",
                 "text": "What type of coding?"
@@ -174,6 +175,7 @@ const howDoYouWantToContributePayload = {
     blocks: [
         {
             "type": "section",
+            "block_id": blockIds.howDoYouWantToContributeAction,
             "text": {
                 "type": "mrkdwn",
                 "text": "How would you like to contribute to Code for San Jose?"
@@ -260,6 +262,7 @@ const contributeBesidesCodingPayload = {
     blocks: [
         {
             "type": "section",
+            "block_id": blockIds.contributeBesidesCodingAction,
             "text": {
                 "type": "mrkdwn",
                 "text": "Would you like to contribute in other ways besides coding?"
@@ -277,63 +280,63 @@ const contributeBesidesCodingPayload = {
                             "type": "plain_text",
                             "text": "User Experience/Product Design"
                         },
-                        "value": actionValues.besidesCodingContributeUxProductDesign
+                        "value": actionValues.contributeUxProductDesign
                     },
                     {
                         "text": {
                             "type": "plain_text",
                             "text": "Advising - Subject Matter Expertise"
                         },
-                        "value": actionValues.besidesCodingContributeAdvisingSme
+                        "value": actionValues.contributeAdvisingSme
                     },
                     {
                         "text": {
                             "type": "plain_text",
                             "text": "Community Sponsor/Partnership"
                         },
-                        "value": actionValues.besidesCodingContributeSponsorPartnership
+                        "value": actionValues.contributeSponsorPartnership
                     },
                     {
                         "text": {
                             "type": "plain_text",
                             "text": "Project Management"
                         },
-                        "value": actionValues.besidesCodingContributeProjectManagement
+                        "value": actionValues.contributeProjectManagement
                     },
                     {
                         "text": {
                             "type": "plain_text",
                             "text": "Researcher"
                         },
-                        "value": actionValues.besidesCodingContributeResearch
+                        "value": actionValues.contributeResearch
                     },
                     {
                         "text": {
                             "type": "plain_text",
                             "text": "Government/policy expert"
                         },
-                        "value": actionValues.besidesCodingContributeGovPolicyExpert
+                        "value": actionValues.contributeGovPolicyExpert
                     },
                     {
                         "text": {
                             "type": "plain_text",
                             "text": "Copywriter / Documentation"
                         },
-                        "value": actionValues.besidesCodingContributeDocumentation
+                        "value": actionValues.contributeDocumentation
                     },
                     {
                         "text": {
                             "type": "plain_text",
                             "text": "User Testing"
                         },
-                        "value": actionValues.besidesCodingContributeUserTesting
+                        "value": actionValues.contributeUserTesting
                     },
                     {
                         "text": {
                             "type": "plain_text",
                             "text": "Other - observe and check things out"
                         },
-                        "value": actionValues.besidesCodingContributeObservation
+                        "value": actionValues.contributeObservation
                     }
                 ]
             }
