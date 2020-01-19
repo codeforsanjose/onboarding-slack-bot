@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
                     if (event.type === 'star_added') {
                         res.sendStatus(200);
                         await sendInitialMessage(event.user);
-                        promptSurvey(id);
+                        promptSurvey(event.user);
                         return;
                     }
                 }
