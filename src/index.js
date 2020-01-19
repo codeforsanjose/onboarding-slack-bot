@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
  * Endpoint to receive events from Slack's Events API.
  * It handles `team_join` event callbacks.
  */
-app.post('/events', (req, res) => {
+app.post('/events', async (req, res) => {
     switch (req.body.type) {
         case 'url_verification': {
             // verify Events API endpoint by returning challenge if present
@@ -78,7 +78,7 @@ app.post('/events', (req, res) => {
  * Endpoint to receive events from interactive message on Slack.
  * Verify the signing secret before continuing.
  */
-app.post('/interactive', (req, res) => {
+app.post('/interactive', async (req, res) => {
     const {
         response_url,
         user,
@@ -98,8 +98,16 @@ app.post('/interactive', (req, res) => {
 
     actions.forEach(action => {
         if (action.type === "static_select") {
-            if (action.selected_option.value === "user_questionnaire_yes") {
-                onboard.startQuestionnaire(user.id, response_url);
+            const { value } = action.selected_option;
+
+            switch(value) {
+                case "userBeganOnBoardingSurvey": {
+                    onboard.confirmFinishedSurvey(user.id, response_url);
+                    break;
+                }
+                case "userFinishedSurvey": {
+                    break;
+                }
             }
         }
     });
