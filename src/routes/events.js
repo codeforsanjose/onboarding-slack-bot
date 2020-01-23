@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
                     return;
                 }
 
+                // TODO for testing purposes only
                 // if (event.type === 'reaction_added') {
                 //     res.sendStatus(200);
                 //     await sendInitialMessage(event.user);
@@ -43,12 +44,12 @@ router.post('/', async (req, res) => {
                 // }
 
                 // TODO for testing purposes only
-                if (event.type === 'star_added') {
-                    res.sendStatus(200);
-                    await sendInitialMessage(event.user);
-                    promptSurvey(event.user);
-                    return;
-                }
+                // if (event.type === 'star_added') {
+                //     res.sendStatus(200);
+                //     await sendInitialMessage(event.user);
+                //     promptSurvey(event.user);
+                //     return;
+                // }
             }
             break;
         }
