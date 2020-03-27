@@ -17,12 +17,12 @@ The onboarding-slack-bot's goal is to automate the Code for San Jose onboarding 
     * Start the app (`npm start`)
     
 #### Deploy to Production
-This project exists as a Heroku application on https://powerful-forest-84794.herokuapp.com. In order to directly edit prod, please contact the codeforsanjose@gmail.com for getting added to the Heroku repo
+This project exists as a Heroku application on https://cfsj-onboarding-slack-bot.herokuapp.com. In order to directly edit prod, please contact the codeforsanjose@gmail.com for getting added to the Heroku repo
 
 ##### Steps for implementing this project
 0. Make sure you can run the app locally either by following the steps above or testing through `heroku local`
 1. `git init`
-2. `heroku create`
+2. If creating the app for the first time,`heroku create`
 3. `git push heroku master`
 
 #### Enable the Slack Events API

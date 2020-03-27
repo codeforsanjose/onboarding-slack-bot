@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ verify: rawBodyBuffer, extended: true }));
 app.use(bodyParser.json({ verify: rawBodyBuffer }));
 
 app.get('/', (req, res) => {
-    res.send('<h1>The Code for San Jose Onboarding Slack app is running</h2>');
+    res.send('<h1>The Code for San Jose Onboarding Slack app is Running</h2>');
 });
 
 /*
